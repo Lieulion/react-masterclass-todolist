@@ -39,10 +39,7 @@ function ToDoList() {
         onSubmit={handleSubmit(onValid)}
       >
         <input {...register("email", { required: true })} placeholder="Email" />
-        <input
-          {...register("firstName", { required: true })}
-          placeholder="First Name"
-        />
+        <input {...register("firstName")} placeholder="First Name" />
         <input
           {...register("lastName", { required: true })}
           placeholder="Last Name"
