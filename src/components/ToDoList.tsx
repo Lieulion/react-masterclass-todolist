@@ -1,6 +1,25 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import { useRecoilValue } from "recoil";
+import { toDoState } from "../atoms";
+import CreateToDo from "./CreateToDo";
+import ToDo from "./ToDo";
 
+function ToDoList() {
+  const toDos = useRecoilValue(toDoState);
+  return (
+    <div>
+      <h1>To Dos</h1>
+      <hr />
+      <CreateToDo />
+      <ul>
+        {toDos.map((toDo) => (
+          <ToDo key={toDo.id} {...toDo} />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default ToDoList;
 /* function ToDoList() {
   const [toDo, setToDo] = useState("");
   const [toDoError, setToDoError] = useState("");
@@ -29,7 +48,7 @@ import { useForm } from "react-hook-form";
   );
 } */
 
-interface IForm {
+/* interface IForm {
   email: string;
   firstName: string;
   lastName: string;
@@ -122,6 +141,4 @@ function ToDoList() {
       </form>
     </div>
   );
-}
-
-export default ToDoList;
+} */
