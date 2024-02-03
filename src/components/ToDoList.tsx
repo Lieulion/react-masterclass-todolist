@@ -1,24 +1,80 @@
-import { useRecoilValue } from "recoil";
-import { toDoState } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Categories, categoryState, toDoSelector, toDoState } from "../atoms";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
 
+// function ToDoList() {
+//   //useRecoilValue는 값만 반환
+//   //const toDos = useRecoilValue(toDoState);
+//   const [toDo, doing, done] = useRecoilValue(toDoSelector);
+//   return (
+//     <div>
+//       <h1>To Dos</h1>
+//       <hr />
+//       <CreateToDo />
+//       <hr />
+
+//       <h2>To Do</h2>
+//       <ul>
+//         {toDo.map((toDo) => (
+//           <ToDo key={toDo.id} {...toDo} />
+//         ))}
+//       </ul>
+//       <hr />
+//       <h2>Doing</h2>
+//       <ul>
+//         {doing.map((toDo) => (
+//           <ToDo key={toDo.id} {...toDo} />
+//         ))}
+//       </ul>
+//       <hr />
+//       <h2>Done</h2>
+//       <ul>
+//         {done.map((toDo) => (
+//           <ToDo key={toDo.id} {...toDo} />
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
 function ToDoList() {
-  const toDos = useRecoilValue(toDoState);
+  //useRecoilValue는 값만 반환
+  const toDos = useRecoilValue(toDoSelector);
+  //useRecoilState : atom의 값과 그것을 수정하는 modifier 함수 반환
+  const [category, setCategory] = useRecoilState(categoryState);
+  const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
+    setCategory(event.currentTarget.value as any);
+  };
   return (
     <div>
       <h1>To Dos</h1>
       <hr />
+      <form>
+        <select value={category} onInput={onInput}>
+          {/*반복이 되므로 enum 으로 바꾸고 한번만 쓰도록 하기
+           <option value="TO_DO">To Do</option>
+          <option value="DOING">Doing</option>
+          <option value="DONE">Done</option> */}
+          <option value={Categories.TO_DO}>To Do</option>
+          <option value={Categories.DOING}>To Do</option>
+          <option value={Categories.DONE}>To Do</option>
+        </select>
+      </form>
       <CreateToDo />
-      <ul>
-        {toDos.map((toDo) => (
-          <ToDo key={toDo.id} {...toDo} />
-        ))}
-      </ul>
+      {/*해당 코드를 짧게 만들기
+       {category === "TO_DO" &&
+        toDo.map((atodo) => <ToDo key={atodo.id} {...atodo} />)}
+      {category === "DOING" &&
+        doing.map((atodo) => <ToDo key={atodo.id} {...atodo} />)}
+      {category === "DONE" &&
+        done.map((atodo) => <ToDo key={atodo.id} {...atodo} />)} 
+        */}
+      {toDos?.map((toDo) => (
+        <ToDo key={toDo.id} {...toDo} />
+      ))}
     </div>
   );
 }
-
 export default ToDoList;
 /* function ToDoList() {
   const [toDo, setToDo] = useState("");
